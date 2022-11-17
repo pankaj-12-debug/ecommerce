@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add products to store</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
+</head>
+<body>
+    <form action="" onsubmit="addProducts(event)">
+        <input type="text" id="title" placeholder="title" required>
+        <br>
+        <input type="number" id="price" placeholder="price" required>
+        <br>
+        <input type="text" id="imageUrl" placeholder="imageUrl" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function addProducts(event){
+            event.preventDefault();
+            const obj={
+                title: document.getElementById('title').value,
+                price: document.getElementById('price').value,
+                imageUrl: document.getElementById('imageUrl').value
+            };
+            axios.post('http://localhost:3000/product',obj)
+                .then(res=>{
+                    console.log(res);
+                    document.getElementById('imageUrl').value = '';
+                    document.getElementById('title').value='';
+                    document.getElementById('price').value='';
+                })
+                .catch(err=>console.log(err));
+        }
+    </script>
+</body>
+</html>

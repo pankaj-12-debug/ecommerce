@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    <link rel="stylesheet" href="store.css">
+</head>
+
+<body>
+    <section id="container-body">
+        <header>
+            <ul>
+                <li><a href="./home.html">HOME</a></li>
+                <li><a href="" style="color: skyblue;">STORE</a></li>
+                <li><a href="./about.html">ABOUT</a></li>
+                <li><a href="../add-product/index.html">Add Product</a></li>
+            </ul>
+            <div class="cart">
+                <a id="cart-top" class="cart-top">cart<span id="cart-number">0</span></a>
+            </div>
+            <h1 id="title">The Music Store</h1>
+        </header>
+
+        <main>
+            <section id="container-parent">
+                <section class="album" id="album">
+                    <h3 class="title-music">MUSIC</h3>
+                    <div class="container-product" id="container-product"></div>
+                    <section class="pagination" id="pagination"></section>
+                    <div class="notif-div"></div>
+                </section>
+                
+                <section class="merch">
+                    <h3 class="title-merch">Merch</h3>
+                    <div class="container-merch"></div>
+                </section>
+
+                <section id="cart-float" class="cart-float" style="display: none;">
+                    <h2>Cart</h2>
+                    <button id="cancel" class="cancel">X</button>
+                    <div class="heading-div">
+                        <span>Product</span>
+                        <span>Price</span>
+                        <span>Quantity</span>
+                    </div>
+                    <div class="cart-items" id="cart-items"></div>
+                    <div id="order-div">
+                        <button id="order-btn">Order Now</button>
+                    </div>
+                    <div class="cart-total">
+                        <span>
+                            <span class="total-title"><strong>Total</strong></span>
+                            <span id="total-value">0</span>
+                        </span>
+                    </div>
+                </section>
+
+                <div class="see-cart" >
+                    <button id="see-cart">See The Cart</button>
+                </div>
+
+
+            </section>
+        </main>
+
+        <footer>
+            <h2>The Music Store</h2>
+            <div class="icons">
+                <ul>
+                    <li><a href="https://www.youtube.com/"><img src="https://img.icons8.com/ios-glyphs/44/000000/youtube-play.png" alt="youtube"></a></li>
+                    <li><a href="https://www.facebook.com/"><img src="https://img.icons8.com/ios-glyphs/44/000000/facebook.png" alt="facebook"></a></li>
+                    <li><a href="https://www.spotify.com/us/"><img src="https://img.icons8.com/ios-glyphs/44/000000/spotify.png" alt="spotify"></a></li>
+                </ul>
+            </div>
+        </footer>
+
+        <script src="store.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
+    </section>
+</body>
+
+</html>
