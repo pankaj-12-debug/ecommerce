@@ -1,3 +1,4 @@
+//const { response } = require("express");
 
 window.addEventListener('DOMContentLoaded', () => {
 // using DOM take product from backened and show in fronted
@@ -7,9 +8,13 @@ window.addEventListener('DOMContentLoaded', () => {
             showProducts(response);
         })
         .catch(err => console.log(err));
+        axios.get(`http://localhost:3000/cart`).then(response=>{
+           console.log('get cart');
+            showCartProduct(response.data);
+        }).catch(err=>console.log(err));
     })
 
-
+//display products in website
     function showProducts(response) {
 
         const div = document.getElementById('container-product');
@@ -31,7 +36,32 @@ window.addEventListener('DOMContentLoaded', () => {
     
             div.innerHTML += productHtml;
         });
-    }    
+    } 
+    // display cart product inside cart
+    function showCartProduct(cartItem){
+        let totalCartPrice=0;
+        if(cartItem.length>0)
+        {
+            document.getElementById('cart-number').innerHTML=cartItem.length;
+            cartItem.forEach(product=>{
+                const div =document.createElement('div');
+                div.setAttribute('class','cart-div');
+                div.setAttribute('id',`${product.id}`);
+                div.innerHTML= `
+                <span><img class='cart-class-img' src=${product.imageUrl}></span>
+                <span>${product.title}</span>  
+                <span>Rs.${product.price}</span>
+                <span>Quantity:${product.cartItem.quantity}</span>
+                <span><button id='cart-remove-btn'>REMOVE</button></span>`
+                document.getElementById('cart-items').appendChild(div);
+                totalCartPrice=totalCartPrice+(product.price)*(product.cartItem.quantity);
+                document.querySelector('#total-value').innerText=`rs.${totalCartPrice}`;
+            })
+        }
+
+    }
+    
+
 
 // see- cart,cart and add-btn are work and taking cart post request
     document.getElementById('container-body').addEventListener('click', (e) => {
@@ -62,7 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
                     setTimeout(() => {
                         notif.remove();
-                    }, 1000);
+                    }, 2000);
 
                 }).catch(err=>{
                     console.log(err);

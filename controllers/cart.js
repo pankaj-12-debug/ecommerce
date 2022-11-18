@@ -38,3 +38,14 @@ exports.postCart = async(req, res) => {
     };
         
 }
+exports.getCart=async(req,res)=>{
+    try {
+        const cart=await req.user.getCart();
+        const product=await cart.getProducts();
+        res.status(200).json(product);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:'failed'});
+        
+    }
+}
