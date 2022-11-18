@@ -49,3 +49,17 @@ exports.getCart=async(req,res)=>{
         
     }
 }
+exports.removeCart=async(req,res)=>{
+    try {
+        const productId = req.params.productId;
+        const cart=await req.user.getCart()
+        const products= await cart.getProducts({where: {id: productId}});
+        const productToDelete = products[0];
+        await productToDelete.cartItem.destroy();
+        res.status(200).send({data: 'item deleted'})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:'failed'})
+        
+    }
+}

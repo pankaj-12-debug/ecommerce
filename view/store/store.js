@@ -54,6 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 <span>Quantity:${product.cartItem.quantity}</span>
                 <span><button id='cart-remove-btn'>REMOVE</button></span>`
                 document.getElementById('cart-items').appendChild(div);
+             //  totalCartPrice.innerHTML=parseFloat(totalCartPrice.innerHTML)+parseFloat(product.price);
                 totalCartPrice=totalCartPrice+(product.price)*(product.cartItem.quantity);
                 document.querySelector('#total-value').innerText=`rs.${totalCartPrice}`;
             })
@@ -76,7 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const id = e.target.parentNode.firstElementChild.id;
              console.log(id)
             const productName = e.target.parentNode.firstElementChild.innerText;
-            
+            console.log(productName);
     
             axios.post('http://localhost:3000/cart', { 'id': id })
                 .then(response => {
@@ -93,9 +94,31 @@ window.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         notif.remove();
                     }, 2000);
+           //display inside cart dom
+           let totalCartPrice=0;
+         const product= response.data.products;
+
+       const div = document.createElement('div'); 
+        div.setAttribute('class', 'cart-div');
+          div.setAttribute('id', `${product.id}`);
+         div.innerHTML = `
+         <span><img class='cart-class-img' src=${product.imageUrl}></span>
+           <span>${product.title}</span> 
+             <span>$${product.price}</span>
+           <span>Quantity:1</span>
+           <span><button id='cart-remove-btn'>REMOVE</button></span>`
+           document.getElementById('cart-items').appendChild(div);
+            totalCartPrice=totalCartPrice+(product.price);
+                document.querySelector('#total-value').innerText=`rs.${totalCartPrice}`;
 
                 }).catch(err=>{
                     console.log(err);
                 })
+            }
+            if(e.target.id==='cart-remove-btn'){
+                e.target.parentNode.parentNode.remove();
+                const productId=e.target.parentNode.parentNode.id;
+                axios.post(`http://localhost:3000/cart-delete/${productId}`)
+                .then(res => console.log(res)).catch(err => console.log(err));
             }
     })
