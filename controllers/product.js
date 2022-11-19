@@ -8,7 +8,14 @@ exports.getProducts = async (req, res) => {
         const numProducts= await Product.findAll();
         let totalItems = numProducts.length;
         const products= await Product.findAll({ offset: ((page - 1) * ITEMS_PER_PAGE),  limit: ITEMS_PER_PAGE});
-        res.status(200).json({ "products": products})
+        res.status(200).json({ "products": products,'pagination': {
+            currentPage: page,
+            hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+            hasPreviousPage: page > 1,
+            nextPage: page + 1,
+            previousPage: page - 1,
+            lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+        }})
        // console.log(products);
     }catch(err){
         console.log(err);

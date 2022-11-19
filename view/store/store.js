@@ -1,10 +1,9 @@
-//const { response } = require("express");
-
 window.addEventListener('DOMContentLoaded', () => {
 // using DOM take product from backened and show in fronted
     axios.get(`http://localhost:3000/products`)
         .then(response => {
             // console.log(response.data);
+            console.log('hi');
             showProducts(response);
         })
         .catch(err => console.log(err));
@@ -33,10 +32,32 @@ window.addEventListener('DOMContentLoaded', () => {
             <button class="add-btn" id="add-btn">ADD TO CART</button>
             </div>
             </div>`;
-    
-            div.innerHTML += productHtml;
+            div.innerHTML += productHtml;         
         });
-    } 
+        // making pagination
+        const pagination=document.getElementById('pagination');
+        pagination.classList.add('pagination');
+        let paginationChild='';
+        if(response.data.pagination.currentPage!==1 && response.data.pagination.previousPage!==1)
+        {
+            paginationChild+=`<button class='pagination' id='pagination' onClick='pagination(1)'>1</button>`;
+        }
+        if(response.data.pagination.hasPreviousPage)
+        {
+            paginationChild+=`<button class='pagination' id='pagination' onClick='(${response.data.pagination.previousPage})'>${response.data.pagination.previousPage}</button>`
+        }
+        paginationChild += `<button class='pagination' id='pagination' onclick='pagination(${response.data.pagination.currentPage})' >${response.data.pagination.currentPage}</button>`;
+        if(response.data.pagination.hasNextPage)
+        {
+            paginationChild += `<button class='pagination' id='pagination' onclick='pagination(${response.data.pagination.nextPage})'>${response.data.pagination.nextPage}</button>`;
+        }
+        if (response.data.pagination.lastPage !== response.data.pagination.currentPage && response.data.pagination.nextPage !== response.data.pagination.lastPage) {
+            paginationChild += `<button class='pagination' id='pagination' onclick='pagination(${response.data.pagination.lastPage})'>${response.data.pagination.lastPage}</button>`;
+        }
+    
+        pagination.innerHTML = paginationChild;
+        }
+    //} 
     // display cart product inside cart
     function showCartProduct(cartItem){
         let totalCartPrice=0;
@@ -95,7 +116,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         notif.remove();
                     }, 2000);
            //display inside cart dom
-           let totalCartPrice=0;
+        /*   let totalCartPrice=0;
          const product= response.data.products;
 
        const div = document.createElement('div'); 
@@ -109,7 +130,7 @@ window.addEventListener('DOMContentLoaded', () => {
            <span><button id='cart-remove-btn'>REMOVE</button></span>`
            document.getElementById('cart-items').appendChild(div);
             totalCartPrice=totalCartPrice+(product.price);
-                document.querySelector('#total-value').innerText=`rs.${totalCartPrice}`;
+                document.querySelector('#total-value').innerText=`rs.${totalCartPrice}`;*/
 
                 }).catch(err=>{
                     console.log(err);
@@ -122,3 +143,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 .then(res => console.log(res)).catch(err => console.log(err));
             }
     })
+function pagination(page)
+{
+    axios.get(`http://localhost:3000/products?page=${page}`).then(response=>{
+        showProducts(response);
+    }).catch(err=>{
+        console.log(err);
+    })
+}
