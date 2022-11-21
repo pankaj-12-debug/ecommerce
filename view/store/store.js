@@ -142,6 +142,18 @@ window.addEventListener('DOMContentLoaded', () => {
                 axios.post(`http://localhost:3000/cart-delete/${productId}`)
                 .then(res => console.log(res)).catch(err => console.log(err));
             }
+            if(e.target.id==='order-btn')
+            {
+                axios.post(`http://localhost:3000/orders`).then(res=>{
+                    console.log(res.data[0]);
+                    console.log('order is working');
+                    alert(`order successfully placed id:${res.data[0].id}`);
+                    document.getElementById('cart-items').remove();
+                }).catch(err=>{
+                    console.log(err);
+                    console.log('order is not working');
+                })
+            }
     })
 function pagination(page)
 {

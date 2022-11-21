@@ -15,7 +15,8 @@ const Product=require('./model/product');
 const User=require('./model/user');
 const Cart=require('./model/cart');
 const CartItem=require('./model/cart-item');
-
+const Order=require('./model/order');
+const OrderDetail=require('./model/order-detail');
 //dummy user
 app.use((req,res,next)=>{
 User.findByPk(1).then(user=>{
@@ -32,9 +33,11 @@ User.findByPk(1).then(user=>{
 //routes
 const productRoutes=require('./routes/product');
 const cartRoutes=require('./routes/cart');
+const orderRoutes=require('./routes/order');
 
 app.use(productRoutes);
 app.use(cartRoutes);
+app.use(orderRoutes);
 
 //association
 Product.belongsTo(User,{constraints:true, onDelete:'CASCADE'});
@@ -43,7 +46,8 @@ User.hasOne(Cart);
 Cart.belongsTo(User);
 Cart.belongsToMany(Product,{through:CartItem});
 Product.belongsToMany(Cart,{through:CartItem});
-
+Order.belongsToMany(Product,{through:OrderDetail});
+Product.belongsToMany(Order,{through:OrderDetail});
 
 sequelize.sync().then(result=>{
     return User.findByPk(1);
